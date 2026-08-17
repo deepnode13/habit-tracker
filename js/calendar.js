@@ -364,3 +364,29 @@ function calendarLegendItem(
     </span>
   `;
 }
+
+function configurarEventosCalendario() {
+
+  document
+    .querySelectorAll(
+      '.calendar-day'
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          const fecha =
+            button.dataset.date;
+
+          console.log(
+            'Día seleccionado:',
+            fecha
+          );
+
+        }
+      );
+
+    });
+}
