@@ -9,6 +9,7 @@ async function iniciarApp() {
   configurarNavegacion();
 
   configurarRefresh();
+  configurarModalDia();
 
   await cargarInicio();
 }
