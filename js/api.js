@@ -58,3 +58,77 @@ async function apiGet(action, params = {}) {
 
   return data;
 }
+
+/**
+ * Obtiene los datos completos
+ * de la pantalla Inicio.
+ *
+ * @param {number} mes
+ * @param {number} anio
+ * @param {string} fecha
+ * @return {Promise<Object>}
+ */
+async function apiGetDashboard(
+  mes,
+  anio,
+  fecha
+) {
+
+  const response =
+    await apiGet(
+      'getDashboard',
+      {
+        mes,
+        anio,
+        fecha
+      }
+    );
+
+  return response.data;
+}
+
+/**
+* Duda si esta parte va
+*/
+const dashboard =
+  await apiGetDashboard(
+    8,
+    2026,
+    '2026-08-18'
+  );
+
+/**
+ * Obtiene hábitos.
+ */
+async function apiGetHabitos(
+  mes,
+  anio,
+  soloActivos = true
+) {
+
+  const response =
+    await apiGet(
+      'getHabitos',
+      {
+        mes,
+        anio,
+        soloActivos
+      }
+    );
+
+  return response.data;
+}
+
+
+/**
+ * Obtiene configuración pública.
+ */
+async function apiGetConfiguracion() {
+
+  const response =
+    await apiGet(
+      'getConfiguracion'
+    );
+
+  return response.data;
+}
