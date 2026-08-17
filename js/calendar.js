@@ -367,26 +367,37 @@ function calendarLegendItem(
 
 function configurarEventosCalendario() {
 
-  document
-    .querySelectorAll(
+  const botones =
+    document.querySelectorAll(
       '.calendar-day'
-    )
-    .forEach(button => {
+    );
 
-      button.addEventListener(
-        'click',
-        () => {
+  console.log(
+    'Días interactivos encontrados:',
+    botones.length
+  );
 
-          const fecha =
-            button.dataset.date;
+  botones.forEach(button => {
 
-          console.log(
-            'Día seleccionado:',
-            fecha
-          );
+    button.addEventListener(
+      'click',
+      () => {
 
-        }
-      );
+        const fecha =
+          button.dataset.date;
 
-    });
+        console.log(
+          'Día seleccionado:',
+          fecha
+        );
+
+      }
+    );
+
+  });
 }
+
+console.log(
+  'Días interactivos encontrados:',
+  botones.length
+);
