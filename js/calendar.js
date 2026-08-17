@@ -153,3 +153,214 @@ function renderCircularCalendar(
     </section>
   `;
 }
+
+/**
+ * Calcula la posición de un día
+ * alrededor del círculo.
+ */
+function calcularPosicionCircular(
+  dia,
+  totalDias
+) {
+
+  const anguloInicial =
+    -90;
+
+  const angulo =
+    anguloInicial +
+    (
+      (dia - 1) /
+      totalDias
+    ) * 360;
+
+  const radianes =
+    angulo *
+    Math.PI /
+    180;
+
+  const radio = 43;
+
+  const x =
+    50 +
+    radio *
+    Math.cos(radianes);
+
+  const y =
+    50 +
+    radio *
+    Math.sin(radianes);
+
+  return {
+    x,
+    y
+  };
+}
+
+function crearFechaISO(
+  anio,
+  mes,
+  dia
+) {
+
+  const mm =
+    String(mes)
+      .padStart(2, '0');
+
+  const dd =
+    String(dia)
+      .padStart(2, '0');
+
+  return `${anio}-${mm}-${dd}`;
+}
+
+function getCalendarDayClass(
+  dia
+) {
+
+  if (!dia) {
+    return 'calendar-day--future';
+  }
+
+  if (dia.esPerfecto) {
+    return 'calendar-day--perfect';
+  }
+
+  if (
+    dia.estadoDia === 'ABIERTO'
+  ) {
+    return 'calendar-day--open';
+  }
+
+  if (
+    dia.estadoDia === 'CERRADO' &&
+    Number(dia.porcentaje) === 0
+  ) {
+    return 'calendar-day--failed';
+  }
+
+  if (
+    dia.estadoDia === 'CERRADO'
+  ) {
+    return 'calendar-day--partial';
+  }
+
+  return 'calendar-day--future';
+}
+
+function getCalendarDayDescription(
+  data,
+  dia,
+  nombreMes
+) {
+
+  if (!data) {
+
+    return `${dia} de ${nombreMes}: sin registro`;
+  }
+
+  if (data.esPerfecto) {
+
+    return `${dia} de ${nombreMes}: día perfecto`;
+  }
+
+  if (
+    data.estadoDia === 'ABIERTO'
+  ) {
+
+    return (
+      `${dia} de ${nombreMes}: ` +
+      `día abierto, ` +
+      `${formatPercentage(
+        data.porcentaje
+      )}`
+    );
+  }
+
+  return (
+    `${dia} de ${nombreMes}: ` +
+    `${formatPercentage(
+      data.porcentaje
+    )}`
+  );
+}
+
+function getNombreMes(mes) {
+
+  const meses = [
+    '',
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre'
+  ];
+
+  return meses[mes] || '';
+}
+
+function renderCalendarLegend() {
+
+  return `
+    <div class="calendar-legend">
+
+      ${calendarLegendItem(
+        'perfect',
+        'Perfecto'
+      )}
+
+      ${calendarLegendItem(
+        'partial',
+        'Parcial'
+      )}
+
+      ${calendarLegendItem(
+        'failed',
+        'Fallado'
+      )}
+
+      ${calendarLegendItem(
+        'open',
+        'Abierto'
+      )}
+
+      ${calendarLegendItem(
+        'future',
+        'Sin registro'
+      )}
+
+    </div>
+  `;
+}
+
+
+function calendarLegendItem(
+  type,
+  label
+) {
+
+  return `
+    <span
+      class="
+        calendar-legend__item
+      "
+    >
+
+      <span
+        class="
+          calendar-legend__dot
+          calendar-legend__dot--${type}
+        "
+      ></span>
+
+      ${escapeHtml(label)}
+
+    </span>
+  `;
+}
