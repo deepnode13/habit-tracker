@@ -19,6 +19,7 @@ function renderDashboard(
   container.className = '';
 
   container.innerHTML = `
+    configurarEventosCalendario();
     <section class="section">
 
       <div class="card card--padded">
@@ -113,7 +114,7 @@ function renderDashboard(
     )}
   `;
 }
-configurarEventosCalendario();
+
 
 function metricCard(
   icon,
