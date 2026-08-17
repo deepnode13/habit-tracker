@@ -113,7 +113,7 @@ function renderDashboard(
     )}
   `;
 }
-
+configurarEventosCalendario();
 
 function metricCard(
   icon,
