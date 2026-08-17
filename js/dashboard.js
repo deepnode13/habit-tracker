@@ -18,15 +18,19 @@ function renderDashboard(
 
   container.className = '';
 
-  container.innerHTML = `
-    
+  container.innerHTML = `    
     <section class="section">
-
       <div class="card card--padded">
-
         <span class="metric-card__label">
           Cumplimiento mensual
         </span>
+
+        ${renderCircularCalendar(
+          dashboard.calendario,
+          dashboard.periodo.mes,
+          dashboard.periodo.anio,
+          resumen.porcentaje
+        )}
 
         <div class="metric-card__value">
           ${formatPercentage(
@@ -60,18 +64,8 @@ function renderDashboard(
 
     </section>
 
-    ${renderCircularCalendar(
-      dashboard.calendario,
-      dashboard.periodo.mes,
-      dashboard.periodo.anio,
-      resumen.porcentaje
-    )}
-
-
     <section class="section">
-
       <div class="metric-grid">
-
         ${metricCard(
           '🔥',
           'Racha actual',
