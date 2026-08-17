@@ -121,3 +121,21 @@ async function apiGetConfiguracion() {
 
   return response.data;
 }
+
+/**
+ * Obtiene el detalle de una fecha.
+ */
+async function apiGetDetalleDia(
+  fecha
+) {
+
+  const response =
+    await apiGet(
+      'getDetalleDia',
+      {
+        fecha
+      }
+    );
+
+  return response.data;
+}
