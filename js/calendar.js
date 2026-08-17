@@ -386,9 +386,7 @@ function configurarEventosCalendario() {
         const fecha =
           button.dataset.date;
 
-        console.log(
-          'Día seleccionado:',
-          fecha
+        abrirDetalleDia(fecha);
         );
 
       }
@@ -396,4 +394,356 @@ function configurarEventosCalendario() {
 
   });
 }
+async function abrirDetalleDia(
+  fecha
+) {
+
+  const modal =
+    document.getElementById(
+      'day-modal'
+    );
+
+  const content =
+    document.getElementById(
+      'day-modal-content'
+    );
+
+  const subtitle =
+    document.getElementById(
+      'day-modal-subtitle'
+    );
+
+  modal.classList.add(
+    'is-open'
+  );
+
+  modal.setAttribute(
+    'aria-hidden',
+    'false'
+  );
+
+  document.body.classList.add(
+    'modal-open'
+  );
+
+  subtitle.textContent =
+    formatFechaHumana(
+      fecha
+    );
+
+  content.innerHTML = `
+    <div class="loading-state">
+      Cargando detalle...
+    </div>
+  `;
+
+  try {
+
+    const detalle =
+      await apiGetDetalleDia(
+        fecha
+      );
+
+    renderDetalleDia(
+      content,
+      detalle
+    );
+
+  } catch (error) {
+
+    console.error(
+      'Error cargando detalle:',
+      error
+    );
+
+    content.innerHTML = `
+      <div class="error-state">
+        No fue posible cargar
+        el detalle del día.
+      </div>
+    `;
+  }
+}
+function renderDetalleDia(
+  container,
+  detalle
+) {
+
+  const dia =
+    detalle.dia;
+
+  const registros =
+    detalle.registros || [];
+
+  if (
+    !dia &&
+    registros.length === 0
+  ) {
+
+    container.innerHTML = `
+      <div class="empty-state">
+        No existen registros
+        para este día.
+      </div>
+    `;
+
+    return;
+  }
+
+  const resumenHtml =
+    dia
+      ? `
+        <div
+          class="
+            card
+            card--padded
+            day-detail-summary
+          "
+        >
+
+          <span
+            class="
+              metric-card__label
+            "
+          >
+            Cumplimiento
+          </span>
+
+          <div
+            class="
+              metric-card__value
+            "
+          >
+            ${formatPercentage(
+              dia.porcentaje
+            )}
+          </div>
+
+          <div class="status-row">
+
+            <span class="status-item">
+              ✅ ${dia.cumplidos}
+            </span>
+
+            <span class="status-item">
+              ❌ ${dia.noCumplidos}
+            </span>
+
+            <span class="status-item">
+              ⬜ ${dia.pendientes}
+            </span>
+
+          </div>
+
+        </div>
+      `
+      : '';
+
+  container.innerHTML = `
+    ${resumenHtml}
+
+    <div class="card card--padded">
+
+      <div class="day-detail-list">
+
+        ${registros.map(
+          registro =>
+            renderDetalleRegistro(
+              registro
+            )
+        ).join('')}
+
+      </div>
+
+    </div>
+  `;
+}
+function renderDetalleRegistro(
+  registro
+) {
+
+  const estado =
+    getEstadoVisual(
+      registro.estado
+    );
+
+  return `
+    <div class="day-detail-item">
+
+      <div
+        class="
+          day-detail-item__info
+        "
+      >
+
+        <p
+          class="
+            day-detail-item__name
+          "
+        >
+          ${escapeHtml(
+            registro.nombre
+          )}
+        </p>
+
+        <p
+          class="
+            day-detail-item__type
+          "
+        >
+          ${escapeHtml(
+            registro.tipo
+          )}
+        </p>
+
+      </div>
+
+      <span
+        class="
+          state-badge
+          ${estado.clase}
+        "
+      >
+        ${estado.icono}
+        ${estado.texto}
+      </span>
+
+    </div>
+  `;
+}
+function getEstadoVisual(
+  estado
+) {
+
+  switch (estado) {
+
+    case 'CUMPLIDO':
+      return {
+        clase:
+          'state-badge--completed',
+        icono:
+          '✓',
+        texto:
+          'Cumplido'
+      };
+
+    case 'NO_CUMPLIDO':
+      return {
+        clase:
+          'state-badge--failed',
+        icono:
+          '×',
+        texto:
+          'No cumplido'
+      };
+
+    case 'PENDIENTE':
+      return {
+        clase:
+          'state-badge--pending',
+        icono:
+          '•',
+        texto:
+          'Pendiente'
+      };
+
+    case 'NO_APLICA':
+      return {
+        clase:
+          'state-badge--na',
+        icono:
+          '−',
+        texto:
+          'No aplica'
+      };
+
+    default:
+      return {
+        clase:
+          'state-badge--na',
+        icono:
+          '?',
+        texto:
+          estado
+      };
+  }
+}
+
+function formatFechaHumana(
+  fecha
+) {
+
+  const [
+    anio,
+    mes,
+    dia
+  ] = fecha
+    .split('-')
+    .map(Number);
+
+  return `${dia} de ${
+    getNombreMes(mes)
+  } de ${anio}`;
+}
+
+function configurarModalDia() {
+
+  const modal =
+    document.getElementById(
+      'day-modal'
+    );
+
+  const closeButton =
+    document.getElementById(
+      'day-modal-close'
+    );
+
+  const backdrop =
+    modal.querySelector(
+      '[data-close-modal]'
+    );
+
+  const cerrar = () => {
+
+    modal.classList.remove(
+      'is-open'
+    );
+
+    modal.setAttribute(
+      'aria-hidden',
+      'true'
+    );
+
+    document.body.classList.remove(
+      'modal-open'
+    );
+  };
+
+  closeButton.addEventListener(
+    'click',
+    cerrar
+  );
+
+  backdrop.addEventListener(
+    'click',
+    cerrar
+  );
+
+  document.addEventListener(
+    'keydown',
+    event => {
+
+      if (
+        event.key === 'Escape' &&
+        modal.classList.contains(
+          'is-open'
+        )
+      ) {
+        cerrar();
+      }
+
+    }
+  );
+}
+
 
