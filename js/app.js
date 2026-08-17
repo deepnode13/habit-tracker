@@ -1,43 +1,33 @@
-/**
- * Punto de entrada del frontend.
- */
-
 document.addEventListener(
   'DOMContentLoaded',
   iniciarApp
 );
 
 
-/**
- * Inicializa Habit Tracker.
- */
 async function iniciarApp() {
 
-  const status =
-    document.getElementById(
-      'status'
-    );
+  configurarNavegacion();
+
+  configurarRefresh();
+
+  await cargarInicio();
+}
+
+
+async function cargarInicio() {
 
   const container =
     document.getElementById(
-      'test-dashboard'
+      'home-content'
     );
 
+  container.className =
+    'loading-state';
+
+  container.innerHTML =
+    'Cargando datos...';
+
   try {
-
-    if (
-      !APP_CONFIG.API_BASE_URL ||
-      APP_CONFIG.API_BASE_URL.includes(
-        'PEGA_AQUI'
-      )
-    ) {
-      throw new Error(
-        'API_BASE_URL no está configurada'
-      );
-    }
-
-    status.textContent =
-      'Conectando con Google Sheets...';
 
     const dashboard =
       await apiGetDashboard(
@@ -51,123 +41,113 @@ async function iniciarApp() {
       dashboard
     );
 
-    status.textContent =
-      'Datos cargados correctamente';
+    document.getElementById(
+      'home-period'
+    ).textContent =
+      'Agosto 2026';
 
-    mostrarPruebaDashboard(
+    renderDashboard(
       container,
       dashboard
     );
 
   } catch (error) {
 
-    console.error(
-      'Error iniciando Habit Tracker:',
-      error
-    );
+    console.error(error);
 
-    status.textContent =
-      'No fue posible cargar los datos';
+    container.className =
+      'card error-state';
 
     container.innerHTML = `
-      <p>
-        ${escapeHtml(error.message)}
-      </p>
+      No fue posible cargar los datos.
+      <br>
+      ${escapeHtml(error.message)}
     `;
-
   }
 }
 
 
-/**
- * Muestra temporalmente algunos datos
- * para verificar la conexión.
- */
-function mostrarPruebaDashboard(
-  container,
-  dashboard
-) {
+function configurarRefresh() {
 
-  const resumen =
-    dashboard.resumenMensual;
+  const button =
+    document.getElementById(
+      'refresh-button'
+    );
 
-  const hoy =
-    dashboard.hoy;
-
-  const rachas =
-    dashboard.rachas;
-
-  container.innerHTML = `
-    <h2>
-      Agosto 2026
-    </h2>
-
-    <p>
-      Cumplimiento mensual:
-      <strong>
-        ${formatPercentage(
-          resumen.porcentaje
-        )}
-      </strong>
-    </p>
-
-    <p>
-      Racha actual:
-      <strong>
-        ${rachas.actual} días
-      </strong>
-    </p>
-
-    <p>
-      Mejor racha:
-      <strong>
-        ${rachas.mejor} días
-      </strong>
-    </p>
-
-    <p>
-      Cumplidos hoy:
-      <strong>
-        ${hoy ? hoy.cumplidos : 0}
-      </strong>
-    </p>
-
-    <p>
-      Pendientes hoy:
-      <strong>
-        ${hoy ? hoy.pendientes : 0}
-      </strong>
-    </p>
-
-    <p>
-      Hábitos recibidos:
-      <strong>
-        ${dashboard.habitos.length}
-      </strong>
-    </p>
-  `;
+  button.addEventListener(
+    'click',
+    cargarInicio
+  );
 }
 
 
-/**
- * Formatea porcentajes sin mostrar
- * decimales innecesarios.
- */
+function configurarNavegacion() {
+
+  const buttons =
+    document.querySelectorAll(
+      '.bottom-nav__item'
+    );
+
+  const pages =
+    document.querySelectorAll(
+      '.page'
+    );
+
+  buttons.forEach(button => {
+
+    button.addEventListener(
+      'click',
+      () => {
+
+        const target =
+          button.dataset.page;
+
+        buttons.forEach(item =>
+          item.classList.remove(
+            'is-active'
+          )
+        );
+
+        pages.forEach(page =>
+          page.classList.remove(
+            'is-active'
+          )
+        );
+
+        button.classList.add(
+          'is-active'
+        );
+
+        const targetPage =
+          document.getElementById(
+            `page-${target}`
+          );
+
+        if (targetPage) {
+          targetPage.classList.add(
+            'is-active'
+          );
+        }
+      }
+    );
+
+  });
+}
+
+
 function formatPercentage(value) {
 
   const numero =
     Number(value) || 0;
 
-  return `${Number(
-    numero.toFixed(1)
-  )}%`;
+  return `${
+    Number(
+      numero.toFixed(1)
+    )
+  }%`;
 }
 
 
-/**
- * Evita insertar directamente texto
- * no controlado dentro del HTML.
- */
 function escapeHtml(value) {
 
   return String(value)
