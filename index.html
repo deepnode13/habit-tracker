@@ -19,17 +19,165 @@
 
 <body>
 
-  <main>
-    <h1>Habit Tracker</h1>
-        <p id="status">
+  <div class="app-shell">
+
+    <div class="app-container">
+
+      <header class="app-header">
+
+        <div class="app-brand">
+          <h1 class="app-brand__title">
+            Habit Tracker
+          </h1>
+
+          <p class="app-brand__subtitle">
+            Construye consistencia cada día
+          </p>
+        </div>
+
+        <button
+          class="icon-button"
+          id="refresh-button"
+          type="button"
+          aria-label="Actualizar"
+        >
+          ↻
+        </button>
+
+      </header>
+
+      <main>
+
+        <section
+          class="page is-active"
+          id="page-home"
+        >
+
+          <div class="page-title">
+            <h2>Inicio</h2>
+
+            <p id="home-period">
+              Agosto 2026
+            </p>
+          </div>
+
+          <div
+            id="home-content"
+            class="loading-state"
+          >
             Cargando datos...
-        </p>
-    <section id="test-dashboard">
-      <p>
-        Esperando respuesta del backend...
-      </p>
-    </section>
-  </main>
+          </div>
+
+        </section>
+
+
+        <section
+          class="page"
+          id="page-habits"
+        >
+
+          <div class="page-title">
+            <h2>Hábitos</h2>
+            <p>Administra tus objetivos</p>
+          </div>
+
+          <div class="card card--padded">
+            Próximamente
+          </div>
+
+        </section>
+
+
+        <section
+          class="page"
+          id="page-statistics"
+        >
+
+          <div class="page-title">
+            <h2>Estadísticas</h2>
+            <p>Analiza tu progreso</p>
+          </div>
+
+          <div class="card card--padded">
+            Próximamente
+          </div>
+
+        </section>
+
+
+        <section
+          class="page"
+          id="page-settings"
+        >
+
+          <div class="page-title">
+            <h2>Configuración</h2>
+            <p>Preferencias del sistema</p>
+          </div>
+
+          <div class="card card--padded">
+            Próximamente
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+
+
+    <nav
+      class="bottom-nav"
+      aria-label="Navegación principal"
+    >
+
+      <button
+        class="bottom-nav__item is-active"
+        data-page="home"
+        type="button"
+      >
+        <span class="bottom-nav__icon">
+          🏠
+        </span>
+        Inicio
+      </button>
+
+      <button
+        class="bottom-nav__item"
+        data-page="habits"
+        type="button"
+      >
+        <span class="bottom-nav__icon">
+          ✅
+        </span>
+        Hábitos
+      </button>
+
+      <button
+        class="bottom-nav__item"
+        data-page="statistics"
+        type="button"
+      >
+        <span class="bottom-nav__icon">
+          📊
+        </span>
+        Stats
+      </button>
+
+      <button
+        class="bottom-nav__item"
+        data-page="settings"
+        type="button"
+      >
+        <span class="bottom-nav__icon">
+          ⚙️
+        </span>
+        Config
+      </button>
+
+    </nav>
+
+  </div>
 
   <script src="js/config.js"></script>
   <script src="js/api.js"></script>
