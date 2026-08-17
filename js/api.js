@@ -86,14 +86,6 @@ async function apiGetDashboard(
 
   return response.data;
 }
-
-const dashboard =
-  await apiGetDashboard(
-    8,
-    2026,
-    '2026-08-18'
-  );
-
 /**
  * Obtiene hábitos.
  */
