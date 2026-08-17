@@ -1,8 +1,6 @@
 /**
  * Calendario circular.
  */
-
-
 /**
  * Renderiza el calendario circular
  * de un mes.
@@ -387,7 +385,7 @@ function configurarEventosCalendario() {
           button.dataset.date;
 
         abrirDetalleDia(fecha);
-        );
+        )
 
       }
     );
