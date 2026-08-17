@@ -24,14 +24,6 @@ function renderDashboard(
         <span class="metric-card__label">
           Cumplimiento mensual
         </span>
-
-        ${renderCircularCalendar(
-          dashboard.calendario,
-          dashboard.periodo.mes,
-          dashboard.periodo.anio,
-          resumen.porcentaje
-        )}
-
         <div class="metric-card__value">
           ${formatPercentage(
             resumen.porcentaje
@@ -61,8 +53,14 @@ function renderDashboard(
         </p>
 
       </div>
-
     </section>
+
+    ${renderCircularCalendar(
+          dashboard.calendario,
+          dashboard.periodo.mes,
+          dashboard.periodo.anio,
+          resumen.porcentaje
+        )}
 
     <section class="section">
       <div class="metric-grid">
