@@ -19,7 +19,7 @@ function renderDashboard(
   container.className = '';
 
   container.innerHTML = `
-    configurarEventosCalendario();
+    
     <section class="section">
 
       <div class="card card--padded">
@@ -113,7 +113,9 @@ function renderDashboard(
       dashboard.rendimientoHabitos
     )}
   `;
+  configurarEventosCalendario();
 }
+
 
 
 function metricCard(
