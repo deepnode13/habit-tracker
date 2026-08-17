@@ -89,13 +89,14 @@ async function apiGetDashboard(
 
 /**
 * Duda si esta parte va
-*/
+
 const dashboard =
   await apiGetDashboard(
     8,
     2026,
     '2026-08-18'
   );
+*/
 
 /**
  * Obtiene hábitos.
