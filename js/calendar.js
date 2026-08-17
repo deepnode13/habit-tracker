@@ -385,8 +385,6 @@ function configurarEventosCalendario() {
           button.dataset.date;
 
         abrirDetalleDia(fecha);
-        )
-
       }
     );
 
