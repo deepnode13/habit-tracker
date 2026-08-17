@@ -59,6 +59,13 @@ function renderDashboard(
 
     </section>
 
+    ${renderCircularCalendar(
+      dashboard.calendario,
+      dashboard.periodo.mes,
+      dashboard.periodo.anio,
+      resumen.porcentaje
+    )}
+
 
     <section class="section">
 
