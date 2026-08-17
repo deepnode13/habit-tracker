@@ -397,7 +397,3 @@ function configurarEventosCalendario() {
   });
 }
 
-console.log(
-  'Días interactivos encontrados:',
-  botones.length
-);
