@@ -227,18 +227,232 @@
         >
           ×
         </button>
-
       </div>
-
       <div
         id="day-modal-content"
         class="modal__content"
       ></div>
+    </div>
+  </div>
+
+  <div
+  class="modal"
+  id="habit-modal"
+  aria-hidden="true"
+>
+
+  <div
+    class="modal__backdrop"
+    data-close-habit-modal
+  ></div>
+
+  <div
+    class="modal__panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="habit-modal-title"
+  >
+
+    <div class="modal__header">
+
+      <div>
+
+        <h2
+          class="modal__title"
+          id="habit-modal-title"
+        >
+          Nuevo hábito
+        </h2>
+
+        <p
+          class="modal__subtitle"
+          id="habit-modal-subtitle"
+        >
+          Configura el hábito
+        </p>
+
+      </div>
+
+      <button
+        class="icon-button"
+        id="habit-modal-close"
+        type="button"
+        aria-label="Cerrar"
+      >
+        ×
+      </button>
 
     </div>
 
-  </div>
 
+    <form id="habit-form">
+
+      <input
+        type="hidden"
+        id="habit-id"
+      >
+
+
+      <div class="form-group">
+
+        <label for="habit-name">
+          Nombre
+        </label>
+
+        <input
+          id="habit-name"
+          type="text"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="habit-description">
+          Descripción
+        </label>
+
+        <textarea
+          id="habit-description"
+          rows="3"
+        ></textarea>
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div class="form-group">
+
+          <label for="habit-type">
+            Tipo
+          </label>
+
+          <select
+            id="habit-type"
+            required
+          >
+            <option value="HACER">
+              Hacer
+            </option>
+
+            <option value="EVITAR">
+              Evitar
+            </option>
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="habit-frequency">
+            Frecuencia
+          </label>
+
+          <select
+            id="habit-frequency"
+            required
+          >
+
+            <option value="DIARIO">
+              Todos los días
+            </option>
+
+            <option value="DIAS_ESPECIFICOS">
+              Días específicos
+            </option>
+
+            <option value="VECES_SEMANA">
+              Veces por semana
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="form-group"
+        id="habit-days-group"
+        hidden
+      >
+
+        <label for="habit-days">
+          Días
+        </label>
+
+        <input
+          id="habit-days"
+          type="text"
+          placeholder="LUN,MIE,VIE"
+        >
+
+        <small>
+          Ejemplo: LUN,MIE,VIE
+        </small>
+
+      </div>
+
+
+      <div
+        class="form-group"
+        id="habit-weekly-group"
+        hidden
+      >
+
+        <label for="habit-weekly">
+          Meta semanal
+        </label>
+
+        <input
+          id="habit-weekly"
+          type="number"
+          min="1"
+          max="7"
+        >
+      </div>
+      <div
+        class="form-group"
+        id="habit-start-group"
+      >
+
+        <label for="habit-start">
+          Fecha de inicio
+        </label>
+
+        <input
+          id="habit-start"
+          type="date"
+          required
+        >
+
+      </div>
+      <div class="form-actions">
+        <button
+          class="secondary-button"
+          id="habit-cancel"
+          type="button"
+        >
+          Cancelar
+        </button>
+
+        <button
+          class="primary-button"
+          type="submit"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+  
+  
   <script src="js/config.js"></script>
   <script src="js/api.js"></script>
   <script src="js/calendar.js"></script>
