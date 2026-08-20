@@ -5,12 +5,10 @@ document.addEventListener(
 
 
 async function iniciarApp() {
-
   configurarNavegacion();
-
   configurarRefresh();
   configurarModalDia();
-
+  configurarModalHabitos();
   await cargarInicio();
 }
 
