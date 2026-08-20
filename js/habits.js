@@ -1,7 +1,14 @@
 /**
  * Pantalla de hábitos.
  */
+
 let habitsLoadedPeriod = null;
+
+
+/**
+ * Carga los hábitos correspondientes
+ * al mes y año indicados.
+ */
 async function cargarHabitos(
   mes,
   anio
@@ -16,11 +23,26 @@ async function cargarHabitos(
     return;
   }
 
+
+  // Evita volver a consultar la API
+  // si este periodo ya fue cargado.
+  const periodoKey =
+    `${anio}-${mes}`;
+
+  if (
+    habitsLoadedPeriod === periodoKey &&
+    container.dataset.loaded === 'true'
+  ) {
+    return;
+  }
+
+
   container.className =
     'loading-state';
 
   container.innerHTML =
     'Cargando hábitos...';
+
 
   try {
 
@@ -29,6 +51,7 @@ async function cargarHabitos(
       dashboard
     ] =
       await Promise.all([
+
         apiGetHabitos(
           mes,
           anio,
@@ -40,7 +63,9 @@ async function cargarHabitos(
           anio,
           '2026-08-18'
         )
+
       ]);
+
 
     const rendimientoMap =
       new Map(
@@ -52,16 +77,26 @@ async function cargarHabitos(
           ])
       );
 
+
     renderHabitos(
       container,
       habitos,
       rendimientoMap
     );
 
+
+    habitsLoadedPeriod =
+      periodoKey;
+
+    container.dataset.loaded =
+      'true';
+
+
     actualizarPeriodoHabitos(
       mes,
       anio
     );
+
 
   } catch (error) {
 
@@ -70,8 +105,10 @@ async function cargarHabitos(
       error
     );
 
+
     container.className =
       'card error-state';
+
 
     container.innerHTML = `
       No fue posible cargar
@@ -82,18 +119,6 @@ async function cargarHabitos(
       )}
     `;
   }
-}
-
-const periodoKey =
-  `${anio}-${mes}`;
-
-if (
-  habitsLoadedPeriod ===
-    periodoKey &&
-  container.dataset.loaded ===
-    'true'
-) {
-  return;
 }
 
 function renderHabitos(
