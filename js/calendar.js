@@ -689,6 +689,15 @@ function configurarModalDia() {
       'day-modal'
     );
 
+  if (!modal) {
+
+    console.error(
+      'No se encontró #day-modal en index.html'
+    );
+
+    return;
+  }
+
   const closeButton =
     document.getElementById(
       'day-modal-close'
@@ -698,6 +707,24 @@ function configurarModalDia() {
     modal.querySelector(
       '[data-close-modal]'
     );
+
+  if (!closeButton) {
+
+    console.error(
+      'No se encontró #day-modal-close'
+    );
+
+    return;
+  }
+
+  if (!backdrop) {
+
+    console.error(
+      'No se encontró el backdrop del modal'
+    );
+
+    return;
+  }
 
   const cerrar = () => {
 
@@ -715,15 +742,18 @@ function configurarModalDia() {
     );
   };
 
+
   closeButton.addEventListener(
     'click',
     cerrar
   );
 
+
   backdrop.addEventListener(
     'click',
     cerrar
   );
+
 
   document.addEventListener(
     'keydown',
@@ -735,11 +765,15 @@ function configurarModalDia() {
           'is-open'
         )
       ) {
+
         cerrar();
+
       }
 
     }
   );
+
+  console.log(
+    'Modal de día configurado correctamente'
+  );
 }
-
-
