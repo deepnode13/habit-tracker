@@ -3,7 +3,7 @@
  */
 
 let habitsLoadedPeriod = null;
-
+let habitsCurrentData = [];
 
 /**
  * Carga los hábitos correspondientes
@@ -65,7 +65,8 @@ async function cargarHabitos(
         )
 
       ]);
-
+      habitsCurrentData =
+      habitos;
 
     const rendimientoMap =
       new Map(
@@ -83,6 +84,7 @@ async function cargarHabitos(
       habitos,
       rendimientoMap
     );
+    configurarAccionesHabitos();
 
 
     habitsLoadedPeriod =
@@ -461,6 +463,36 @@ function renderHabitCard(
 
       </div>
 
+    ${habito.activo
+  ? `
+    <div
+      class="habit-card__actions"
+    >
+
+      <button
+        class="habit-action-button"
+        type="button"
+        data-edit-habit="${habito.idHabito}"
+      >
+        Editar
+      </button>
+
+      <button
+        class="
+          habit-action-button
+          habit-action-button--danger
+        "
+        type="button"
+        data-disable-habit="${habito.idHabito}"
+      >
+        Desactivar
+      </button>
+
+    </div>
+  `
+  : ''
+}  
+      
     </article>
   `;
 }
@@ -535,4 +567,448 @@ function actualizarPeriodoHabitos(
 
   element.textContent =
     `${getNombreMes(mes)} ${anio}`;
+}
+
+function configurarAccionesHabitos() {
+
+  document
+    .querySelectorAll(
+      '[data-edit-habit]'
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          const id =
+            button.dataset.editHabit;
+
+          abrirModalEditarHabito(
+            id
+          );
+        }
+      );
+
+    });
+
+
+  document
+    .querySelectorAll(
+      '[data-disable-habit]'
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          const id =
+            button.dataset.disableHabit;
+
+          confirmarDesactivarHabito(
+            id
+          );
+        }
+      );
+
+    });
+}
+
+function abrirModalNuevoHabito() {
+
+  const form =
+    document.getElementById(
+      'habit-form'
+    );
+
+  form.reset();
+
+  document.getElementById(
+    'habit-id'
+  ).value = '';
+
+  document.getElementById(
+    'habit-modal-title'
+  ).textContent =
+    'Nuevo hábito';
+
+  document.getElementById(
+    'habit-start-group'
+  ).hidden = false;
+
+  document.getElementById(
+    'habit-start'
+  ).value =
+    '2026-08-20';
+
+  actualizarCamposFrecuencia();
+
+  mostrarHabitModal();
+}
+
+function abrirModalEditarHabito(
+  idHabito
+) {
+
+  const habito =
+    habitsCurrentData.find(
+      item =>
+        item.idHabito ===
+        idHabito
+    );
+
+  if (!habito) {
+    return;
+  }
+
+  document.getElementById(
+    'habit-modal-title'
+  ).textContent =
+    'Editar hábito';
+
+  document.getElementById(
+    'habit-id'
+  ).value =
+    habito.idHabito;
+
+  document.getElementById(
+    'habit-name'
+  ).value =
+    habito.nombre;
+
+  document.getElementById(
+    'habit-description'
+  ).value =
+    habito.descripcion || '';
+
+  document.getElementById(
+    'habit-type'
+  ).value =
+    habito.tipo;
+
+  document.getElementById(
+    'habit-frequency'
+  ).value =
+    habito.frecuencia;
+
+  document.getElementById(
+    'habit-days'
+  ).value =
+    habito.dias || '';
+
+  document.getElementById(
+    'habit-weekly'
+  ).value =
+    habito.metaSemanal || '';
+
+  document.getElementById(
+    'habit-start-group'
+  ).hidden = true;
+
+  actualizarCamposFrecuencia();
+
+  mostrarHabitModal();
+}
+function mostrarHabitModal() {
+
+  const modal =
+    document.getElementById(
+      'habit-modal'
+    );
+
+  modal.classList.add(
+    'is-open'
+  );
+
+  modal.setAttribute(
+    'aria-hidden',
+    'false'
+  );
+
+  document.body.classList.add(
+    'modal-open'
+  );
+}
+
+
+function cerrarHabitModal() {
+
+  const modal =
+    document.getElementById(
+      'habit-modal'
+    );
+
+  modal.classList.remove(
+    'is-open'
+  );
+
+  modal.setAttribute(
+    'aria-hidden',
+    'true'
+  );
+
+  document.body.classList.remove(
+    'modal-open'
+  );
+}
+
+function actualizarCamposFrecuencia() {
+
+  const frecuencia =
+    document.getElementById(
+      'habit-frequency'
+    ).value;
+
+  document.getElementById(
+    'habit-days-group'
+  ).hidden =
+    frecuencia !==
+    'DIAS_ESPECIFICOS';
+
+  document.getElementById(
+    'habit-weekly-group'
+  ).hidden =
+    frecuencia !==
+    'VECES_SEMANA';
+}
+
+function configurarModalHabitos() {
+
+  const nuevoButton =
+    document.getElementById(
+      'new-habit-button'
+    );
+
+  const closeButton =
+    document.getElementById(
+      'habit-modal-close'
+    );
+
+  const cancelButton =
+    document.getElementById(
+      'habit-cancel'
+    );
+
+  const modal =
+    document.getElementById(
+      'habit-modal'
+    );
+
+  const backdrop =
+    modal.querySelector(
+      '[data-close-habit-modal]'
+    );
+
+  const frequency =
+    document.getElementById(
+      'habit-frequency'
+    );
+
+  const form =
+    document.getElementById(
+      'habit-form'
+    );
+
+
+  nuevoButton.addEventListener(
+    'click',
+    abrirModalNuevoHabito
+  );
+
+
+  closeButton.addEventListener(
+    'click',
+    cerrarHabitModal
+  );
+
+
+  cancelButton.addEventListener(
+    'click',
+    cerrarHabitModal
+  );
+
+
+  backdrop.addEventListener(
+    'click',
+    cerrarHabitModal
+  );
+
+
+  frequency.addEventListener(
+    'change',
+    actualizarCamposFrecuencia
+  );
+
+
+  form.addEventListener(
+    'submit',
+    guardarFormularioHabito
+  );
+}
+
+async function guardarFormularioHabito(
+  event
+) {
+
+  event.preventDefault();
+
+  const idHabito =
+    document.getElementById(
+      'habit-id'
+    ).value;
+
+  const frecuencia =
+    document.getElementById(
+      'habit-frequency'
+    ).value;
+
+  const data = {
+
+    nombre:
+      document.getElementById(
+        'habit-name'
+      ).value.trim(),
+
+    descripcion:
+      document.getElementById(
+        'habit-description'
+      ).value.trim(),
+
+    tipo:
+      document.getElementById(
+        'habit-type'
+      ).value,
+
+    frecuencia,
+
+    dias:
+      frecuencia ===
+        'DIAS_ESPECIFICOS'
+        ? document.getElementById(
+            'habit-days'
+          ).value.trim()
+        : '',
+
+    metaSemanal:
+      frecuencia ===
+        'VECES_SEMANA'
+        ? Number(
+            document.getElementById(
+              'habit-weekly'
+            ).value
+          )
+        : ''
+  };
+
+
+  try {
+
+    if (idHabito) {
+
+      await apiActualizarHabito(
+        idHabito,
+        data
+      );
+
+    } else {
+
+      await apiCrearHabito({
+        ...data,
+
+        mes: 8,
+        anio: 2026,
+
+        fechaInicio:
+          document.getElementById(
+            'habit-start'
+          ).value
+      });
+    }
+
+
+    cerrarHabitModal();
+
+    await recargarHabitos();
+
+    await cargarInicio();
+
+
+  } catch (error) {
+
+    console.error(
+      'Error guardando hábito:',
+      error
+    );
+
+    window.alert(
+      error.message
+    );
+  }
+}
+
+async function recargarHabitos() {
+
+  const container =
+    document.getElementById(
+      'habits-content'
+    );
+
+  habitsLoadedPeriod = null;
+
+  container.dataset.loaded =
+    'false';
+
+  await cargarHabitos(
+    8,
+    2026
+  );
+}
+
+async function confirmarDesactivarHabito(
+  idHabito
+) {
+
+  const habito =
+    habitsCurrentData.find(
+      item =>
+        item.idHabito ===
+        idHabito
+    );
+
+  if (!habito) {
+    return;
+  }
+
+  const confirmar =
+    window.confirm(
+      `¿Desactivar "${habito.nombre}"?`
+    );
+
+  if (!confirmar) {
+    return;
+  }
+
+
+  try {
+
+    await apiDesactivarHabito(
+      idHabito
+    );
+
+    await recargarHabitos();
+
+    await cargarInicio();
+
+  } catch (error) {
+
+    console.error(
+      'Error desactivando hábito:',
+      error
+    );
+
+    window.alert(
+      error.message
+    );
+  }
 }
