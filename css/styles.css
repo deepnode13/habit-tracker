@@ -638,3 +638,152 @@ button {
   </div>
 
 </div>
+
+.habits-group {
+  margin-bottom: 24px;
+}
+
+.habits-group__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 12px;
+}
+
+.habits-group__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 0;
+
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.habits-group__count {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.habit-card {
+  padding: 18px;
+
+  margin-bottom: 12px;
+}
+
+.habit-card:last-child {
+  margin-bottom: 0;
+}
+
+.habit-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 14px;
+}
+
+.habit-card__main {
+  min-width: 0;
+  flex: 1;
+}
+
+.habit-card__title {
+  margin: 0;
+
+  font-size: 1rem;
+  font-weight: 750;
+}
+
+.habit-card__description {
+  margin: 5px 0 0;
+
+  font-size: 0.82rem;
+  line-height: 1.45;
+
+  color: var(--text-muted);
+}
+
+.habit-type {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  font-size: 0.7rem;
+  font-weight: 750;
+
+  white-space: nowrap;
+}
+
+.habit-type--do {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.habit-type--avoid {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.habit-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px 14px;
+
+  margin-top: 14px;
+
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.habit-performance {
+  margin-top: 16px;
+}
+
+.habit-performance__header {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 7px;
+
+  font-size: 0.78rem;
+}
+
+.habit-performance__label {
+  color: var(--text-muted);
+}
+
+.habit-performance__value {
+  font-weight: 750;
+}
+
+.habit-inactive {
+  opacity: 0.6;
+}
+
+.habit-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.habit-status__dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+}
+
+.habit-status__dot--active {
+  background: var(--success);
+}
+
+.habit-status__dot--inactive {
+  background: var(--text-muted);
+}
