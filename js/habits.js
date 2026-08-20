@@ -127,12 +127,6 @@ function renderHabitos(
   rendimientoMap
 ) {
 
-  habitsLoadedPeriod =
-  periodoKey;
-
-container.dataset.loaded =
-  'true';
-
   const habitosHacer =
     habitos.filter(
       habito =>
@@ -163,6 +157,8 @@ container.dataset.loaded =
     )}
   `;
 }
+
+
 
 function renderGrupoHabitos(
   tipo,
