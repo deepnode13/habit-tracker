@@ -129,6 +129,12 @@ function configurarNavegacion() {
             'is-active'
           );
         }
+        if (target === 'habits') {
+            cargarHabitos(
+            8,
+            2026
+            );
+        }
       }
     );
 
