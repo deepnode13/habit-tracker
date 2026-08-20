@@ -1,7 +1,7 @@
 /**
  * Pantalla de hábitos.
  */
-
+let habitsLoadedPeriod = null;
 async function cargarHabitos(
   mes,
   anio
@@ -84,11 +84,29 @@ async function cargarHabitos(
   }
 }
 
+const periodoKey =
+  `${anio}-${mes}`;
+
+if (
+  habitsLoadedPeriod ===
+    periodoKey &&
+  container.dataset.loaded ===
+    'true'
+) {
+  return;
+}
+
 function renderHabitos(
   container,
   habitos,
   rendimientoMap
 ) {
+
+  habitsLoadedPeriod =
+  periodoKey;
+
+container.dataset.loaded =
+  'true';
 
   const habitosHacer =
     habitos.filter(
